@@ -6,6 +6,35 @@ A rundown and description of the PDFs can be found at the end of [this document]
 
 The output are CSV files that can be then imported into a DB, RStudio or a Jupyter Notebook for analysis.
 
+# How does it work?
+
+1. Open up a terminal/command window.
+
+2. Clone/download the repo to `caljobs-activity-codes-pdf-2-csv/` dir.
+  - If cloning it, use `git clone https://github.com/californiapolicylab/caljobs-activity-codes-pdf-2-csv` from your PC, not from a VM.
+
+3. `cd` into `caljobs-activity-codes-pdf-2-csv/` and type `pip install requirements.txt`. This will install the necessary dependencies
+  - You may also have to install some OS dependencies, which will be easier with Linux's `apt`
+
+4. Type `python code/caljobs_activity_codes_sqlite.csv`. The script will check directory structure and create files if they are not there, and then spin up a SQLite3 database with these CSV as tables. This may take a while. Don't interrupt the process until you see the followng:
+```
+*******************
+SQLite3 DB up.
+Run 'sqlite3 ./caljobs_act_codes.db' file.
+Press Ctrl+C when done.
+*******************
+```
+
+5. Open up any DB visualizer of your choice and connect with the following URL: `jdbc:sqlite:/path/to/caljobs-activity-codes-pdf-2-csv/caljobs_act_codes.db`.
+
+6. Table names are identical to the file names below.
+  - `caljobs_activity_codes_dictionary`
+  - `caljobs_activity_codes_detailed_listing`
+  - `caljobs_activity_codes_detailed_listing_employer`
+  - `caljobs_activity_codes_and_perf_crosswalk`
+
+7. Spine is in table `caljobs_activity_codes_dictionary`, and the key used to travel to the rest of the tables is `activity_code`.
+
 ## How is this done?
 
 We use the [`camelot-py`](https://camelot-py.readthedocs.io/en/master/) library, which depends on ghostscript and tkinter. Running on Linux will prove easier, due to these dependencies on Windows being finnicky in terms of installation.
