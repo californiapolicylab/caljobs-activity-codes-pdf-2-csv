@@ -35,6 +35,28 @@ Press Ctrl+C when done.
 
 7. Spine is in table `caljobs_activity_codes_dictionary`, and the key used to travel to the rest of the tables is `activity_code`.
 
+: warning: If you are running this code from WSL, but wish to connect to the SQLite3 instance created here using a Windows DB client, you will have to create a symlink from the `caljobs_act_codes.db` to anywhere in the Windows filesystem. We suggest typing: `ln -s /mnt/c/Users/[_your windows user_]/Desktop/caljobs_act_codes.d`.
+
+## Example query
+
+Let's take the following query:
+
+```sql
+select dl.reporting_category, 
+sum(prog_affiliation_adult_dw),
+sum(prog_affiliation_msfw),
+sum(prog_affiliation_nfjp),
+sum(prog_affiliation_taa),
+sum(prog_affiliation_wp_jvsg),
+sum(prog_affiliation_youth)
+from caljobs_activity_codes_dictionary cd
+join caljobs_activity_codes_detailed_listing dl 
+on (cd.activity_code = dl.activity_code)
+group by dl.reporting_category;
+```
+
+This query attempts to count the programs by reporting category.
+
 ## How is this done?
 
 We use the [`camelot-py`](https://camelot-py.readthedocs.io/en/master/) library, which depends on ghostscript and tkinter. Running on Linux will prove easier, due to these dependencies on Windows being finnicky in terms of installation.
