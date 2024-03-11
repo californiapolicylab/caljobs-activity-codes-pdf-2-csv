@@ -164,3 +164,6 @@ output/*
 
 # Virtual env created by venv
 .venv
+
+# SQLite DB files
+*.db
